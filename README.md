@@ -1,4 +1,4 @@
-                    **My suggestion before use this template**
+                                  **My suggestion before use this template**
 **1** password encoder is different from spring boot 1.5. 
     i have to use CustomConfiguration to get the custom passwordEncoder. i had to add "{bcrypt}"
     in the prefix of the encoder to make it work. also need to encode the **client secret**
