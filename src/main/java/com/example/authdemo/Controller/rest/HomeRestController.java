@@ -4,12 +4,16 @@ import com.example.authdemo.Config.CustomConfiugration;
 import com.example.authdemo.Domain.User;
 import com.example.authdemo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.Past;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,5 +31,11 @@ public class HomeRestController {
         user.setPassword(CustomConfiugration.getPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
         return "created";
+    }
+
+    @GetMapping("/doctor")
+    @Secured("ROLE_SUPER_ADMIN")
+    public String authorityTest() {
+        return " annotation working";
     }
 }
