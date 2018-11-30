@@ -1,6 +1,4 @@
 package com.example.authdemo.Config;
-
-import com.example.authdemo.Domain.User;
 import com.example.authdemo.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -14,15 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 @Configuration
 @EnableWebSecurity
@@ -41,11 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        Map encoders = new HashMap<>();
-        encoders.put("bcrypt", new BCryptPasswordEncoder());
         auth
                 .userDetailsService(customUserDetailsService)
-                .passwordEncoder( new DelegatingPasswordEncoder("bcrypt", encoders));
+                .passwordEncoder( CustomConfiugration.getPasswordEncoder());
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -53,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -74,7 +60,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .permitAll();
     }
-
-
-
 }

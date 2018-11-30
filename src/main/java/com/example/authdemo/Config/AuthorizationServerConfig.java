@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-
 import javax.sql.DataSource;
 
 
@@ -43,8 +42,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-
-
         clients.inMemory().withClient("android-client")
                 .authorizedGrantTypes("client-credentials", "password","refresh_token")
                 .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
@@ -57,11 +54,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager)
-                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
-
+        endpoints.authenticationManager(authenticationManager).allowedTokenEndpointRequestMethods(HttpMethod.POST);
         endpoints.tokenStore(this.tokenStore());
-
     }
 }
-

@@ -21,12 +21,6 @@ public class HomeRestController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/")
-    public String hello() {
-
-        return "hello world";
-    }
-
     @PostMapping("/create/user")
     public String createUser(@RequestBody User user) {
 
